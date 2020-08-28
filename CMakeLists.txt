@@ -15,13 +15,15 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/s
 # target_compile_definitions(${PROJECT_NAME} PRIVATE MY_DEFINE)
 
 # --[ Testing ] ---------------------------------------------------------------
-set(TEST_NAME test)
-add_executable(${TEST_NAME} src/test.cpp)
-# set_target_properties(${TEST_NAME} PROPERTIES OUTPUT_NAME other_name)
-target_compile_options(${TEST_NAME} PRIVATE -Wall -Wextra -Werror)
-target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src)
-if(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_link_options(${TEST_NAME} PRIVATE -static-libgcc -Wl,-static,-lpthread)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    set(TEST_NAME test)
+    add_executable(${TEST_NAME} src/test.cpp)
+    # set_target_properties(${TEST_NAME} PROPERTIES OUTPUT_NAME other_name)
+    target_compile_options(${TEST_NAME} PRIVATE -Wall -Wextra -Werror)
+    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src)
+    if(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+        target_link_options(${TEST_NAME} PRIVATE -static-libgcc -Wl,-static,-lpthread)
+    endif()
 endif()
 
 ## ctest --build-and-test .. . --build-generator "Unix Makefiles" --test-command main_test
