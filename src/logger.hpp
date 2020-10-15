@@ -126,7 +126,7 @@ private:
     template <typename T>
     using enable_is_float = std::enable_if_t<std::is_floating_point<T>::value, bool>;
     template <typename T>
-    using enable_is_string = std::enable_if_t<std::is_same<T, string>::value || std::is_same<T, string&>::value, bool>;
+    using enable_is_string = std::enable_if_t<std::is_same<T, string const>::value || std::is_same<T, string>::value || std::is_same<T, string const&>::value || std::is_same<T, string&>::value, bool>;
     template <typename T>
     using enable_is_char_string = std::enable_if_t<std::is_same<T, char const*>::value || std::is_same<T, char*>::value, bool>;
     template <typename T>
