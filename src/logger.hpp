@@ -179,7 +179,7 @@ private:
     template <typename T, enable_is_string<T> = true>
     static string convert(string const&, T&& arg)
     {
-        return std::move(arg);
+        return arg;
     }
 
     template <typename T, enable_is_char_string<T> = true>
