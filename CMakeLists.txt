@@ -5,9 +5,9 @@ cmake_minimum_required(VERSION 3.19)
 project(logger)
 
 set(PROJECT_COMPILE_FEATURES cxx_std_17)
-set(PROJECT_COMPILE_OPTIONS -Wall -Wextra)
-set(PROJECT_COMPILE_OPTIONS ${PROJECT_COMPILE_OPTIONS} -Wno-c++98-compat -Wno-c++98-c++11-compat-binary-literal -Wno-c++98-compat-pedantic)
-set(PROJECT_COMPILE_OPTIONS ${PROJECT_COMPILE_OPTIONS} -Wno-global-constructors -Wno-exit-time-destructors -Wno-format-nonliteral)
+set(PROJECT_COMPILE_OPTIONS -Wall)
+set(PROJECT_COMPILE_OPTIONS ${PROJECT_COMPILE_OPTIONS} -Wno-c++98-compat -Wno-c++98-compat-pedantic)
+set(PROJECT_COMPILE_OPTIONS ${PROJECT_COMPILE_OPTIONS} -Wno-global-constructors -Wno-exit-time-destructors -Wno-format-nonliteral -Wno-return-std-move)
 set(PROJECT_COMPILE_DEFINES)
 set(PROJECT_LINK_LIBRARIES)
 
