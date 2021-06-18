@@ -93,7 +93,7 @@ private:
                 } else
                     esc_num += ch;
                 break;
-            default:
+            case SYMBOL:
                 if (ch == '\x1B')
                     state = ESC_BEGIN;
                 else
@@ -117,7 +117,7 @@ private:
             if (std::isdigit(ch) || ch == '.')
                 fill += ch;
             else
-                type = std::tolower(ch);
+                type = static_cast<char>(std::tolower(ch));
         }
         return std::make_tuple(type, fill);
     }
@@ -159,7 +159,7 @@ private:
         }
 
         char buf[512];
-        snprintf(buf, 512, format.c_str(), static_cast<long long>(arg));
+        std::snprintf(buf, 512, format.c_str(), static_cast<long long>(arg));
         return buf;
     }
 
@@ -213,7 +213,9 @@ private:
 
 public:
     logger()
-        : logger("") {};
+        : logger("")
+    {
+    }
     logger(string const& hdr, string const& ftr = "")
         : header(hdr)
         , footer(ftr.empty() ? "" : ' ' + ftr)
@@ -266,12 +268,12 @@ public:
     template <typename T, typename... Types>
     static string format(string const& str, T&& arg, Types&&... args)
     {
-        auto bpos { 0 }; // позиция символа '{'
-        auto epos { 0 }; // позиция символа '}'
+        size_t bpos { 0 }; // позиция символа '{'
+        size_t epos { 0 }; // позиция символа '}'
 
         auto begin_found = false;
         auto found = false;
-        for (auto i = 0u; i < str.size(); i++) {
+        for (size_t i = 0; i < str.size(); i++) {
             auto ch = str[i];
             if (ch == '{') {
                 bpos = i;
