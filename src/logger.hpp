@@ -21,6 +21,7 @@ using std::forward;
 using std::map;
 using std::stack;
 using std::string;
+using std::string_view;
 
 namespace makedump {
 
@@ -129,6 +130,8 @@ private:
     template <typename T>
     using enable_is_string = std::enable_if_t<std::is_same<T, string const>::value || std::is_same<T, string>::value || std::is_same<T, string const&>::value || std::is_same<T, string&>::value, bool>;
     template <typename T>
+    using enable_is_string_view = std::enable_if_t<std::is_same<T, string_view const>::value || std::is_same<T, string_view>::value || std::is_same<T, string_view const&>::value || std::is_same<T, string_view&>::value, bool>;
+    template <typename T>
     using enable_is_char_string = std::enable_if_t<std::is_same<T, char const*>::value || std::is_same<T, char*>::value, bool>;
     template <typename T>
     using enable_is_wchar_string = std::enable_if_t<std::is_same<T, wchar_t const*>::value || std::is_same<T, wchar_t*>::value, bool>;
@@ -181,6 +184,12 @@ private:
     static string convert(string const&, T&& arg)
     {
         return arg;
+    }
+
+    template <typename T, enable_is_string_view<T> = true>
+    static string convert(string const&, T&& arg)
+    {
+        return string { arg };
     }
 
     template <typename T, enable_is_char_string<T> = true>
