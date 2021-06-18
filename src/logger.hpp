@@ -1,5 +1,6 @@
 // -----------------------------------------------------------------------------
 // logger :: вывод цветных форматированных сообщений в консоль
+// author :: Alexander U.Jurankov (heir@mail.ru)
 // -----------------------------------------------------------------------------
 #pragma once
 #include <array>
@@ -151,14 +152,14 @@ private:
         switch (type) {
         case 'x':
             format
-                = "0x%0" + fill + "zX";
+                = "0x%0" + fill + "llX";
             break;
         default:
-            format = "%" + fill + "zd";
+            format = "%" + fill + "lld";
         }
 
         char buf[512];
-        snprintf(buf, 512, format.c_str(), ssize_t(arg));
+        snprintf(buf, 512, format.c_str(), static_cast<long long>(arg));
         return buf;
     }
 
