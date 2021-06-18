@@ -1,31 +1,26 @@
-# --[ Project ] ---------------------------------------------------------------
-cmake_minimum_required(VERSION 3.16)
-project(logger LANGUAGES CXX)
-# set(CMAKE_VERBOSE_MAKEFILE ON)
+# -----------------------------------------------------------------------------
+# Project
+# -----------------------------------------------------------------------------
+cmake_minimum_required(VERSION 3.19)
+project(logger)
 
-# --[ Library ] ---------------------------------------------------------------
+set(PROJECT_COMPILE_FEATURES cxx_std_17)
+set(PROJECT_COMPILE_OPTIONS -Wall -Wextra)
+set(PROJECT_COMPILE_OPTIONS ${PROJECT_COMPILE_OPTIONS} -Wno-c++98-compat -Wno-c++98-c++11-compat-binary-literal -Wno-c++98-compat-pedantic)
+set(PROJECT_COMPILE_OPTIONS ${PROJECT_COMPILE_OPTIONS} -Wno-global-constructors -Wno-exit-time-destructors -Wno-format-nonliteral)
+set(PROJECT_COMPILE_DEFINES)
+set(PROJECT_LINK_LIBRARIES)
+
+set(PROJECT_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/src)
+set(PROJECT_INCLUDES)
+# set(PROJECT_SOURCES ${PROJECT_SOURCE_DIR}/src/test.cpp)
+
+# -----------------------------------------------------------------------------
+# Make Header-Only Library
+# -----------------------------------------------------------------------------
 add_library(${PROJECT_NAME} INTERFACE)
-target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_14)
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/src)
+target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_INCLUDE_DIRS})
 
-# --[ Flags, Options, Defines ] -----------------------------------------------
-# target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
-# target_compile_options(${PROJECT_NAME} PRIVATE -Wno-unused-parameter)
-# target_compile_options(${PROJECT_NAME} PRIVATE -Wno-unused-variable)
-# target_compile_definitions(${PROJECT_NAME} PRIVATE MY_DEFINE)
-
-# --[ Testing ] ---------------------------------------------------------------
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    set(TEST_NAME test)
-    add_executable(${TEST_NAME} src/test.cpp)
-    # set_target_properties(${TEST_NAME} PROPERTIES OUTPUT_NAME other_name)
-    target_compile_options(${TEST_NAME} PRIVATE -Wall -Wextra -Werror)
-    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src)
-    if(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-        target_link_options(${TEST_NAME} PRIVATE -static-libgcc -Wl,-static,-lpthread)
-    endif()
-endif()
-
-## ctest --build-and-test .. . --build-generator "Unix Makefiles" --test-command main_test
-# enable_testing()
-# add_test(TEST main_test)
+target_compile_features(${PROJECT_NAME} INTERFACE ${PROJECT_COMPILE_FEATURES})
+target_compile_definitions(${PROJECT_NAME} INTERFACE ${PROJECT_COMPILE_DEFINES})
+target_compile_options(${PROJECT_NAME} INTERFACE ${PROJECT_COMPILE_OPTIONS})
